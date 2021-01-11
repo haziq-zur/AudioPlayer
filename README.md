@@ -3,7 +3,7 @@ A simple audio player generated from python codes to play some audio file from a
 
 The control include Play, Pause, Stop and Load.
 
-Load button will pop up a dialog box for user to change directory accordingly.
+Load button will pop up a dialog box for user to change directory accordingly. For now, only able to load .mp3 file type.
 
 ## Audio folder
 By default its taken from C://Music, user can also load from other folder using Load Button.
