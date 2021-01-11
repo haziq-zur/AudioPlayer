@@ -1,0 +1,2 @@
+# Ignore unnescessary json files as python linting is disabled.
+settings.json
