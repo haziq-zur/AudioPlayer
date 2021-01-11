@@ -1,7 +1,7 @@
 # AudioPlayer
 A simple audio player generated from python codes to play some audio file from a prespecified directory. 
 
-The control include Play, Pause, Stop and Load.
+The control include Play, Pause, Stop and Load(user need to load file directory taht contain audio file first to populate playlist).
 
 Load button will pop up a dialog box for user to change directory accordingly. For now, only able to load .mp3 file type.
 
