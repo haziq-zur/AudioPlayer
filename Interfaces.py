@@ -84,20 +84,18 @@ class AudioPlayer:
             self.IsPaused = False
 
     def loadtrack(self):
-        # Changing Directory for fetching tracks
-        os.chdir("C:\\Music")
-        # Fetching tracks
+        self.newplaylist = filedialog.askopenfilename()
+        filedir = os.path.dirname(self.newplaylist)
+        os.chdir(filedir)
         musictracks = os.listdir()
-        # Inserting Songs into Playlist
         for track in musictracks:
-            self.playlist.insert(END,track)
-            
-        # self.newplaylist = filedialog.askdirectory()
-        # musictracks = os.listdir(self.newplaylist)
-        # for track in musictracks:
-        #     self.playlist.insert(END,track)
-        # print(1)
+            IsMusicFile = (os.path.splitext(track)[1]) == ".mp3"
+            if IsMusicFile:
+                self.playlist.insert(END,track)
+            else:
+                break
 
-root = Tk()
-app = AudioPlayer(root)
-mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    app = AudioPlayer(root)
+    mainloop()
