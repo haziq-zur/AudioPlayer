@@ -14,8 +14,10 @@ class AudioPlayer:
         pygame.init()
         pygame.mixer.init()
 
+        # Initialize variable
         self.audiotrack = StringVar()
         self.audiostatus = StringVar()
+        self.IsPaused = False
 
         # Creating the Track Frames for Song label & status label
         trackframe = LabelFrame(self.root,text="Now Playing...",font=("arial",10,"bold"),bg="Navyblue",fg="white",bd=5,relief=GROOVE)
@@ -29,34 +31,73 @@ class AudioPlayer:
         buttonframe = LabelFrame(self.root,text="Player Control",font=("arial",10,"bold"),bg="grey",fg="white",bd=5,relief=GROOVE)
         buttonframe.place(x=0,y=60,width=285,height=60)
         # Inserting Play Button
-        playbutton = Button(buttonframe,text="Play",width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=0,padx=10,pady=5)
+        playbutton = Button(buttonframe,text="Play",command=self.playtrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=0,padx=10,pady=5)
         # Inserting Pause Button
-        pausebutton = Button(buttonframe,text="Pause",width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=1,padx=10,pady=5)
+        pausebutton = Button(buttonframe,text="Pause",command=lambda:[self.IsClicked,self.togglepausetrack],width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=1,padx=10,pady=5)
         # Inserting Stop Button
-        stopbutton = Button(buttonframe,text="Stop",width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=2,padx=10,pady=5)
+        stopbutton = Button(buttonframe,text="Stop",command=self.stoptrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=2,padx=10,pady=5)
         # Inserting Load Button
-        loadbutton = Button(buttonframe,text="Load",width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=3,padx=10,pady=5)
+        loadbutton = Button(buttonframe,text="Load",command=self.loadtrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=3,padx=10,pady=5)
 
         # Creating Playlist Frame
-        songsframe = LabelFrame(self.root,text="Playlist",font=("arial",10,"bold"),bg="grey",fg="white",bd=5,relief=GROOVE)
-        songsframe.place(x=285,y=0,width=205,height=120)
+        listframe = LabelFrame(self.root,text="Playlist",font=("arial",10,"bold"),bg="grey",fg="white",bd=5,relief=GROOVE)
+        listframe.place(x=285,y=0,width=205,height=120)
         # Inserting scrollbar
-        scrol_y = Scrollbar(songsframe,orient=VERTICAL)
+        scrol_y = Scrollbar(listframe,orient=VERTICAL)
         # Inserting Playlist listbox
-        self.playlist = Listbox(songsframe,yscrollcommand=scrol_y.set,selectbackground="gold",selectmode=SINGLE,font=("arial",10,"bold"),bg="silver",fg="navyblue",bd=5,relief=GROOVE)
+        self.playlist = Listbox(listframe,yscrollcommand=scrol_y.set,selectbackground="gold",selectmode=SINGLE,font=("arial",10,"bold"),bg="silver",fg="navyblue",bd=5,relief=GROOVE)
         # Applying Scrollbar to listbox
         scrol_y.pack(side=RIGHT,fill=Y)
         scrol_y.config(command=self.playlist.yview)
         self.playlist.pack(fill=BOTH)
-        # Changing Directory for fetching Songs
+
+    def playtrack(self):
+        # Displaying Selected Song title
+        self.audiotrack.set(self.playlist.get(ACTIVE))
+        # Displaying Status
+        self.audiostatus.set("-Playing")
+        # Loading Selected track
+        pygame.mixer.music.load(self.playlist.get(ACTIVE))
+        # Playing Selected track
+        pygame.mixer.music.play()
+    
+    def stoptrack(self):
+        # Displaying Status
+        self.audiostatus.set("-Stopped")
+        # Stopped track
+        pygame.mixer.music.stop()
+
+    def togglepausetrack(self):
+        if not self.IsPaused:
+            # Displaying Status
+            self.audiostatus.set("-Paused")
+            # Paused track
+            pygame.mixer.music.pause()
+            # Set True to Paused variable
+            self.IsPaused = True
+        else:
+            # Redisplayed audio status
+            self.audiostatus.set("-Playing")
+            # Unpause track
+            pygame.mixer.music.unpause()
+            # Set False to Paused variable
+            self.IsPaused = False
+
+    def loadtrack(self):
+        # Changing Directory for fetching tracks
         os.chdir("C:\\Music")
-        # Fetching Songs
-        songtracks = os.listdir()
+        # Fetching tracks
+        musictracks = os.listdir()
         # Inserting Songs into Playlist
-        for track in songtracks:
+        for track in musictracks:
             self.playlist.insert(END,track)
+            
+        # self.newplaylist = filedialog.askdirectory()
+        # musictracks = os.listdir(self.newplaylist)
+        # for track in musictracks:
+        #     self.playlist.insert(END,track)
+        # print(1)
 
 root = Tk()
-self = StringVar()
-app = AudioPlayer.__init__(self, root)
+app = AudioPlayer(root)
 mainloop()
