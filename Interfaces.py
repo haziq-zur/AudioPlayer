@@ -20,32 +20,32 @@ class AudioPlayer:
         self.IsPaused = False
 
         # Creating the Track Frames for Song label & status label
-        trackframe = LabelFrame(self.root,text="Now Playing...",font=("arial",10,"bold"),bg="Navyblue",fg="white",bd=5,relief=GROOVE)
+        trackframe = LabelFrame(self.root,text="Now Playing...",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
         trackframe.place(x=0,y=0,width=285,height=60)
         # Inserting Song Track Label
-        songtrack = Label(trackframe,textvariable=self.audiotrack,width=20,font=("arial",10,"bold"),bg="Orange",fg="gold").grid(row=0,column=0,padx=10,pady=5)
+        songtrack = Label(trackframe,textvariable=self.audiotrack,width=20,font=("arial",10,"bold"),bg="dark sea green",fg="black").grid(row=0,column=0,padx=10,pady=5)
         # Inserting Status Label
-        trackstatus = Label(trackframe,textvariable=self.audiostatus,font=("arial",10,"bold"),bg="orange",fg="gold").grid(row=0,column=1,padx=10,pady=5)
+        trackstatus = Label(trackframe,textvariable=self.audiostatus,font=("arial",10,"bold"),bg="dark sea green",fg="black").grid(row=0,column=1,padx=10,pady=5)
 
         # Creating Button Frame
-        buttonframe = LabelFrame(self.root,text="Player Control",font=("arial",10,"bold"),bg="grey",fg="white",bd=5,relief=GROOVE)
+        buttonframe = LabelFrame(self.root,text="Player Control",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
         buttonframe.place(x=0,y=60,width=285,height=60)
         # Inserting Play Button
-        playbutton = Button(buttonframe,text="Play",command=self.playtrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=0,padx=10,pady=5)
+        playbutton = Button(buttonframe,text="Play",command=self.playtrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=0,padx=10,pady=5)
         # Inserting Pause Button
-        pausebutton = Button(buttonframe,text="Pause",command=lambda:[self.IsClicked,self.togglepausetrack],width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=1,padx=10,pady=5)
+        pausebutton = Button(buttonframe,text="Pause",command=self.togglepausetrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=1,padx=10,pady=5)
         # Inserting Stop Button
-        stopbutton = Button(buttonframe,text="Stop",command=self.stoptrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=2,padx=10,pady=5)
+        stopbutton = Button(buttonframe,text="Stop",command=self.stoptrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=2,padx=10,pady=5)
         # Inserting Load Button
-        loadbutton = Button(buttonframe,text="Load",command=self.loadtrack,width=5,font=("arial",10,"bold"),fg="navyblue",bg="pink").grid(row=0,column=3,padx=10,pady=5)
+        loadbutton = Button(buttonframe,text="Load",command=self.loadtrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=3,padx=10,pady=5)
 
         # Creating Playlist Frame
-        listframe = LabelFrame(self.root,text="Playlist",font=("arial",10,"bold"),bg="grey",fg="white",bd=5,relief=GROOVE)
+        listframe = LabelFrame(self.root,text="Playlist",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
         listframe.place(x=285,y=0,width=205,height=120)
         # Inserting scrollbar
         scrol_y = Scrollbar(listframe,orient=VERTICAL)
         # Inserting Playlist listbox
-        self.playlist = Listbox(listframe,yscrollcommand=scrol_y.set,selectbackground="gold",selectmode=SINGLE,font=("arial",10,"bold"),bg="silver",fg="navyblue",bd=5,relief=GROOVE)
+        self.playlist = Listbox(listframe,yscrollcommand=scrol_y.set,selectbackground="dark slate gray",selectmode=SINGLE,font=("arial",10,"bold"),bg="dark sea green",fg="black",bd=5,relief=GROOVE)
         # Applying Scrollbar to listbox
         scrol_y.pack(side=RIGHT,fill=Y)
         scrol_y.config(command=self.playlist.yview)
