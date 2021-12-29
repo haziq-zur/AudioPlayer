@@ -2,12 +2,13 @@ import os
 import pygame
 from tkinter import *
 from tkinter import filedialog
+from controls import AudioControl
 
 class AudioPlayer:
     def __init__(self, root):
         self.root = root
         # Set window title and size
-        self.root.title('D3vil Audio Player')
+        self.root.title('Audio Player by kong')
         self.root.geometry('490x120+200+200')
 
         # Initiate Pygame and Pygame Mixer to be used for audio playing
@@ -17,7 +18,9 @@ class AudioPlayer:
         # Initialize variable
         self.audiotrack = StringVar()
         self.audiostatus = StringVar()
-        self.IsPaused = False
+        self.playlist = StringVar()
+
+        ctrl = AudioControl()
 
         # Creating the Track Frames for Song label & status label
         trackframe = LabelFrame(self.root,text="Now Playing...",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
@@ -31,13 +34,13 @@ class AudioPlayer:
         buttonframe = LabelFrame(self.root,text="Player Control",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
         buttonframe.place(x=0,y=60,width=285,height=60)
         # Inserting Play Button
-        playbutton = Button(buttonframe,text="Play",command=self.playtrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=0,padx=10,pady=5)
+        playbutton = Button(buttonframe,text="Play",command=lambda: ctrl.playtrack(self.audiotrack, self.audiostatus, self.playlist),width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=0,padx=10,pady=5)
         # Inserting Pause Button
-        pausebutton = Button(buttonframe,text="Pause",command=self.togglepausetrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=1,padx=10,pady=5)
+        pausebutton = Button(buttonframe,text="Pause",command=lambda: ctrl.togglepausetrack(self.audiostatus),width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=1,padx=10,pady=5)
         # Inserting Stop Button
-        stopbutton = Button(buttonframe,text="Stop",command=self.stoptrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=2,padx=10,pady=5)
+        stopbutton = Button(buttonframe,text="Stop",command=lambda: ctrl.stoptrack(self.audiostatus),width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=2,padx=10,pady=5)
         # Inserting Load Button
-        loadbutton = Button(buttonframe,text="Load",command=self.loadtrack,width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=3,padx=10,pady=5)
+        loadbutton = Button(buttonframe,text="Load",command=lambda: ctrl.loadtrack(self.playlist),width=5,font=("arial",10,"bold"),fg="black",bg="dark sea green").grid(row=0,column=3,padx=10,pady=5)
 
         # Creating Playlist Frame
         listframe = LabelFrame(self.root,text="Playlist",font=("arial",10,"bold"),bg="dark slate gray",fg="white",bd=5,relief=GROOVE)
@@ -50,50 +53,6 @@ class AudioPlayer:
         scrol_y.pack(side=RIGHT,fill=Y)
         scrol_y.config(command=self.playlist.yview)
         self.playlist.pack(fill=BOTH)
-
-    def playtrack(self):
-        # Displaying Selected Song title
-        self.audiotrack.set(self.playlist.get(ACTIVE))
-        # Displaying Status
-        self.audiostatus.set("-Playing")
-        # Loading Selected track
-        pygame.mixer.music.load(self.playlist.get(ACTIVE))
-        # Playing Selected track
-        pygame.mixer.music.play()
-    
-    def stoptrack(self):
-        # Displaying Status
-        self.audiostatus.set("-Stopped")
-        # Stopped track
-        pygame.mixer.music.stop()
-
-    def togglepausetrack(self):
-        if not self.IsPaused:
-            # Displaying Status
-            self.audiostatus.set("-Paused")
-            # Paused track
-            pygame.mixer.music.pause()
-            # Set True to Paused variable
-            self.IsPaused = True
-        else:
-            # Redisplayed audio status
-            self.audiostatus.set("-Playing")
-            # Unpause track
-            pygame.mixer.music.unpause()
-            # Set False to Paused variable
-            self.IsPaused = False
-
-    def loadtrack(self):
-        self.newplaylist = filedialog.askopenfilename()
-        filedir = os.path.dirname(self.newplaylist)
-        os.chdir(filedir)
-        musictracks = os.listdir()
-        for track in musictracks:
-            IsMusicFile = (os.path.splitext(track)[1]) == ".mp3"
-            if IsMusicFile:
-                self.playlist.insert(END,track)
-            else:
-                break
 
 if __name__ == "__main__":
     root = Tk()
