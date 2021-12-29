@@ -15,7 +15,6 @@ User can also load from other folder using Load Button.
 
 ## Tested Audio file types
 1. MP3
-<<<<<<< HEAD
 
 ## Creating Executables
 1. Install Auto Py To Exe (python -m pip install auto-py-to-exe)
